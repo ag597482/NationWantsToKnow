@@ -1,5 +1,7 @@
 package com.Indra.nwtk;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -32,6 +34,35 @@ public class frag5 extends Fragment {
 
         name.setText(mUsername);
         image.setText(String.valueOf(mUsername.charAt(0)).toUpperCase());
+
+
+
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent intent=new Intent(getContext(),Followers.class);
+                intent.setData(Uri.parse("Followers"));
+                startActivity(intent);
+
+            }
+        });
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent intent=new Intent(getContext(),Followers.class);
+                intent.setData(Uri.parse("Following"));
+                startActivity(intent);
+
+            }
+        });
+
+
+
 
 
         return view;

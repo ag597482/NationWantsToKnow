@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.Indra.nwtk"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:7.0.1'
 
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation 'com.github.nikartm:image-support:1.0.5'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
