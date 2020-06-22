@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Followers">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+
+            android:layout_margin="2dp">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/serch"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="8dp"
+
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/et_style"
+                android:clickable="true"
+                android:icon="@android:drawable/ic_menu_search"
+                android:title="searchbar"
+                app:actionViewClass="androidx.appcompat.widget.SearchView"
+                app:queryHint="Search ..."
+                app:showAsAction="ifRoom|collapseActionView"
+
+                />
+        </LinearLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_margin="20dp"
+        />
+    <ListView
+        android:id="@+id/persons_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>

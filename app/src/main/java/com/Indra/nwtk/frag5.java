@@ -1,5 +1,7 @@
 package com.Indra.nwtk;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,27 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.widget.ImageView;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link frag5#newInstance} factory method to
- * create an instance of this fragment.
- */
+import static com.Indra.nwtk.MainActivity.mUsername;
+
 
 
 public class frag5 extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     List<Question> questionList;
 
@@ -38,42 +32,51 @@ public class frag5 extends Fragment {
     RecyclerView recyclerView;
 
     public frag5() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment frag5.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static frag5 newInstance(String param1, String param2) {
-        frag5 fragment = new frag5();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_frag5, null);
+
+
+        TextView name = root.findViewById(R.id.username);
+        name.setText(mUsername);
+
+        TextView follow = root.findViewById(R.id.followers);
+        TextView followin = root.findViewById(R.id.following);
+
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent intent=new Intent(getContext(),Followers.class);
+                intent.setData(Uri.parse("Followers"));
+                startActivity(intent);
+
+            }
+        });
+        followin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent intent=new Intent(getContext(),Followers.class);
+                intent.setData(Uri.parse("Following"));
+                startActivity(intent);
+
+            }
+        });
+
+
+
+
         recyclerView = (RecyclerView) root.findViewById(R.id.question_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -89,5 +92,8 @@ public class frag5 extends Fragment {
         //setting adapter to recyclerview
         recyclerView.setAdapter(adapter);
         return root;
+
+
+
     }
 }
