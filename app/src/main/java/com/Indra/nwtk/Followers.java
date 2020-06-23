@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +14,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -22,6 +28,12 @@ public class Followers extends AppCompatActivity {
 
     String title;
     Button button;
+
+
+    String fsn="";
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mMessageDatabaseRefrence;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +99,7 @@ public class Followers extends AppCompatActivity {
         else
             item.setIcon(R.drawable.ic_person_add_black_24dp);
 
+
         return true;
     }
 
@@ -96,6 +109,33 @@ public class Followers extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menulogo:
                 Toast.makeText(this,title,Toast.LENGTH_SHORT).show();
+                if(title.equals("Following"))
+                {
+                    item.setVisible(false);
+
+
+                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference usersdRef = rootRef.child("users");
+                    ValueEventListener eventListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                                String name = ds.child("name").getValue(String.class);
+                                fsn=fsn+name+" ";
+                                Log.d("TAG", name);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {}
+                    };
+                    usersdRef.addListenerForSingleValueEvent(eventListener);
+
+
+                    Toast.makeText(this,fsn,Toast.LENGTH_SHORT).show();
+
+
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

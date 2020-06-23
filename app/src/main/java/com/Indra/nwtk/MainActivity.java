@@ -1,8 +1,5 @@
 package com.Indra.nwtk;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,22 +18,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+
 public class MainActivity extends AppCompatActivity {
+
+
+
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
     public static final int RC_SIGN_IN = 1 ;
 
+    int flag;
+    String temp;
 
     public static final String ANONYMOUS = "anonymous";
 
@@ -57,16 +67,23 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mMessageDatabaseRefrence;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
 
         firebaseAuth=FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+        mMessageDatabaseRefrence = mFirebaseDatabase.getReference().child("users");
+
+
+
+
         mUsername=ANONYMOUS;
 
 
@@ -116,13 +133,50 @@ public class MainActivity extends AppCompatActivity {
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null)
                 {                // sign in
 
                     mUsername=user.getDisplayName();
 
-                    Toast.makeText(MainActivity.this, "You're now signed in as " + user.getDisplayName() , Toast.LENGTH_SHORT).show();
+
+                     temp = "";
+                    PersonItem person = new PersonItem(user.getDisplayName(),user.getEmail());
+
+                    flag=0;
+
+                    mMessageDatabaseRefrence.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                PersonItem personItem = snapshot.getValue(PersonItem.class);
+
+
+                                temp = temp + " "+ personItem.getEmail();
+                                if(personItem.getName().equals(user.getDisplayName()))
+                                {
+                                    flag++;
+                                    break;
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                    if(flag==0) {
+                        mMessageDatabaseRefrence.push().setValue(person);
+                    }
+
+                    Toast.makeText(MainActivity.this,   temp + " " + flag , Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -218,6 +272,8 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return fragmentList.size();
         }
+
+        
 
         @Nullable
         @Override

@@ -38,9 +38,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.1'
 
     implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
-    implementation 'com.facebook.android:facebook-login:7.0.1'
 
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+
     implementation 'com.github.nikartm:image-support:1.0.5'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -51,5 +50,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:29.0.2-rc1'
     implementation 'com.android.support:design:29.+'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+
+    implementation 'com.google.firebase:firebase-database:19.3.1'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".question_list"></activity>
 
         <activity android:name=".Followers"
 
@@ -23,7 +22,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.Indra.nwtk.MainActivity" />
         </activity>
->>>>>>> followers
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
