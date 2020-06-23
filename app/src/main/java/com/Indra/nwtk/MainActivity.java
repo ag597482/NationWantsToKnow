@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
             return fragmentList.size();
         }
 
-        
+
 
         @Nullable
         @Override
